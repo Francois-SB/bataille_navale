@@ -48,7 +48,28 @@ destroyer        = {(5, 3): True, (6, 3): True, (7, 3): True}
 submarine        = {(5, 8): True, (5, 9): True, (5, 10): True}
 torpedo_boat     = {(9, 5): True, (9, 6): True}
 ships_list = [aircraft_carrier, cruiser, destroyer, submarine, torpedo_boat]
+def ask_coord():
+    shot_coord = None  # pour éviter un avertissement ("can be undefined")
 
+    valid_coord = False
+    while not valid_coord:
+
+        # ex. d'entrée attendue : 'A1'
+        player_coord = input("Entrez les coordonnées de votre tir (ex. : 'A1', 'H8') : ")
+
+        if 2 <= len(player_coord) <= 3:
+            letter, number = player_coord[0], player_coord[1:]
+            letter = letter.upper()
+            try:
+                # détermination de line_no et column_no (comptés à partir de 1)
+                line_no = int(number)
+                column_no = ord(letter) - ord('A') + 1
+                if 1 <= line_no <= GRID_SIZE and letter in LETTERS:
+                    valid_coord = True
+                    shot_coord = (line_no, column_no)
+            except ValueError:
+                pass 
+    return shot_coord
 def ship_is_hit(ship, shot_coord):
     return True if shot_coord in ship else False
 def ship_is_sunk(ship) : 
@@ -78,26 +99,10 @@ while ships_list:
     # on demande des coordonnées au joueur tant qu'il n'en fournit pas de valides
     # (ex. : 'A1', 'H8'), puis on les transforme en des coordonnées du programme :
     # tuple (no_ligne, no_colonne)
-    valid_coord = False
+    
     shot_coord = None  # pour éviter un avertissement ("can be undefined")
-    while not valid_coord:
-
-        # ex. d'entrée attendue : 'A1'
-        player_coord = input("Entrez les coordonnées de votre tir (ex. : 'A1', 'H8') : ")
-
-        if 2 <= len(player_coord) <= 3:
-            letter, number = player_coord[0], player_coord[1:]
-            letter = letter.upper()
-            try:
-                # détermination de line_no et column_no (comptés à partir de 1)
-                line_no = int(number)
-                column_no = ord(letter) - ord('A') + 1
-                if 1 <= line_no <= GRID_SIZE and letter in LETTERS:
-                    valid_coord = True
-                    shot_coord = (line_no, column_no)
-            except ValueError:
-                pass
-
+    shot_coord = ask_coord()
+    
     # on regarde à présent si le tir en coord_tir touche un navire
 
     for ship in ships_list:

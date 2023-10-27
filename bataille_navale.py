@@ -1,7 +1,6 @@
 #!/usr/bin/env python
 #  -*- coding: utf-8 -*-
 SEA, MISSED_SHOT, HIT_SHOT, SUNK_SHOT = 0, 1, 2, 3
-played_square = 
 # la grille de jeu virtuelle est composée de 10 x 10 cases
 # une case est identifiée par ses coordonnées, un tuple (no_ligne, no_colonne)
 # un no_ligne ou no_colonne est compris dans le programme entre 1 et 10,
